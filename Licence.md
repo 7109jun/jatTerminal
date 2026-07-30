@@ -1,13 +1,21 @@
-## ️ 라이선스 및 면책 조항
+MIT License
 
-> 이 저작물은 [7109jun](https://github.com/7109jun)에 의해 작성되었으며, 
-> [Creative Commons Attribution 4.0 International License](https://creativecommons.org/licenses/by/4.0/deed.ko)에 따라 이용할 수 있습니다.
-> 사용 시 반드시 원 저작자를 명시해 주시기 바랍니다.
+Copyright (c) 2026 7109jun
 
-###  터미널 도구 특화 고지사항
-JatTerminal은 시스템 명령어를 직접 실행하는 도구입니다. 이에 따라 다음 사항을 유의해 주세요:
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
 
-- **사용자 책임 원칙**: 본 도구를 통해 실행된 모든 명령어, 스크립트, 자동화 작업으로 인한 **시스템 손상, 데이터 손실, 보안 취약점 발생 등 모든 결과는 전적으로 사용자의 책임**입니다.
-- **무보증 제공**: 본 소프트웨어는 '있는 그대로(AS-IS)' 제공되며, 상품성·특정 목적 적합성에 대한 묵시적 보증을 포함하여 **어떠한 형태의 보증도 제공하지 않습니다**.
-- **프로덕션 사용 제한**: 현재 버전은 실용성 검증 단계이며, 중요 시스템에서의 사용 전에는 반드시 격리 환경에서 충분한 테스트를 수행해 주시기 바랍니다.
-- **라이선스 위반 시**: 저작자 표시 없이 재배포하거나 상업적 이용 시 라이선스가 자동으로 종료되며, 법적 조치가 취해질 수 있습니다.
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
