@@ -1,0 +1,37 @@
+name: Build jat Terminal
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Compile Windows EXE
+        run: g++ -o jat.exe 7Code.cpp -O2 -s -static
+        
+      - name: Upload EXE
+        uses: actions/upload-artifact@v4
+        with:
+          name: jat-terminal-windows
+          path: jat.exe
+
+  build-linux:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Install X11 dependencies
+        run: sudo apt-get install -y libx11-dev libxtst-dev
+        
+      - name: Compile Linux Binary
+        run: g++ -o jat 7Code.cpp -O2 -s -lX11 -lXtst
+        
+      - name: Upload Binary
+        uses: actions/upload-artifact@v4
+        with:
+          name: jat-terminal-linux
+          path: jat
