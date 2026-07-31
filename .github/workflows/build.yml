@@ -1,37 +1,57 @@
-name: Build jat Terminal
+name: Build JAT Terminal
 
 on:
   push:
-    branches: [main]
+    branches: [ main ]
+  workflow_dispatch:
 
 jobs:
   build-windows:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
-      
-      - name: Compile Windows EXE
-        run: g++ -o jat.exe 7Code.cpp -O2 -s -static
-        
-      - name: Upload EXE
+
+      - name: Compile (Windows .exe)
+        run: |
+          g++ -std=c++17 -O2 -o jat-terminal.exe 7Code.cpp -ladvapi32 -liphlpapi -lws2_32 -lshell32
+
+      - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: jat-terminal-windows
-          path: jat.exe
+          path: jat-terminal.exe
 
   build-linux:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      
-      - name: Install X11 dependencies
-        run: sudo apt-get install -y libx11-dev libxtst-dev
-        
-      - name: Compile Linux Binary
-        run: g++ -o jat 7Code.cpp -O2 -s -lX11 -lXtst
-        
-      - name: Upload Binary
+
+      - name: Compile (Linux)
+        run: |
+          g++ -std=c++17 -O2 -o jat-terminal-linux 7Code.cpp -lstdc++fs
+
+      - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: jat-terminal-linux
-          path: jat
+          path: jat-terminal-linux
+
+  release:
+    needs: [build-windows, build-linux]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: latest
+          name: JAT Terminal - Latest Build
+          files: |
+            artifacts/jat-terminal-windows/jat-terminal.exe
+            artifacts/jat-terminal-linux/jat-terminal-linux
+          prerelease: false
