@@ -19,7 +19,7 @@ jobs:
           echo "C:\curl\curl-8.12.1_3-win64-mingw\include" >> $env:GITHUB_PATH
           echo "C:\curl\curl-8.12.1_3-win64-mingw\bin" >> $env:GITHUB_PATH
 
-      - name: Compile
+      - name: Compile Windows
         run: |
           g++ -std=c++17 -O2 -o jat-terminal.exe 7Code.cpp -ladvapi32 -liphlpapi -lws2_32 -lshell32 -lcurldll -LC:\curl\curl-8.12.1_3-win64-mingw\lib -IC:\curl\curl-8.12.1_3-win64-mingw\include
 
@@ -36,7 +36,7 @@ jobs:
       - name: Install curl
         run: sudo apt-get update && sudo apt-get install -y libcurl4-openssl-dev
 
-      - name: Compile
+      - name: Compile Linux
         run: g++ -std=c++17 -O2 -o jat-terminal-linux 7Code.cpp -lcurl
 
       - uses: actions/upload-artifact@v4
