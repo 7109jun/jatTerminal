@@ -11,7 +11,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install curl
+      - name: Install curl for Windows
         shell: pwsh
         run: |
           Invoke-WebRequest -Uri "https://curl.se/windows/dl-8.12.1_3/curl-8.12.1_3-win64-mingw.zip" -OutFile curl.zip
@@ -33,7 +33,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install curl
+      - name: Install curl for Linux
         run: sudo apt-get update && sudo apt-get install -y libcurl4-openssl-dev
 
       - name: Compile Linux
