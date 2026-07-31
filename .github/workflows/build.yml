@@ -1,3 +1,4 @@
+
 name: Build JAT Terminal
 
 on:
@@ -11,12 +12,19 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Compile (Windows .exe)
+      - name: Install curl
+        shell: pwsh
         run: |
-          g++ -std=c++17 -O2 -o jat-terminal.exe 7Code.cpp -ladvapi32 -liphlpapi -lws2_32 -lshell32
+          Invoke-WebRequest -Uri "https://curl.se/windows/dl-8.12.1_3/curl-8.12.1_3-win64-mingw.zip" -OutFile curl.zip
+          Expand-Archive curl.zip -DestinationPath C:\curl
+          echo "C:\curl\curl-8.12.1_3-win64-mingw\include" >> $env:GITHUB_PATH
+          echo "C:\curl\curl-8.12.1_3-win64-mingw\bin" >> $env:GITHUB_PATH
 
-      - name: Upload artifact
-        uses: actions/upload-artifact@v4
+      - name: Compile
+        run: |
+          g++ -std=c++17 -O2 -o jat-terminal.exe 7Code.cpp -ladvapi32 -liphlpapi -lws2_32 -lshell32 -lcurldll -LC:\curl\curl-8.12.1_3-win64-mingw\lib -IC:\curl\curl-8.12.1_3-win64-mingw\include
+
+      - uses: actions/upload-artifact@v4
         with:
           name: jat-terminal-windows
           path: jat-terminal.exe
@@ -26,12 +34,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Compile (Linux)
-        run: |
-          g++ -std=c++17 -O2 -o jat-terminal-linux 7Code.cpp -lstdc++fs
+      - name: Install curl
+        run: sudo apt-get update && sudo apt-get install -y libcurl4-openssl-dev
 
-      - name: Upload artifact
-        uses: actions/upload-artifact@v4
+      - name: Compile
+        run: g++ -std=c++17 -O2 -o jat-terminal-linux 7Code.cpp -lcurl
+
+      - uses: actions/upload-artifact@v4
         with:
           name: jat-terminal-linux
           path: jat-terminal-linux
@@ -46,12 +55,10 @@ jobs:
         with:
           path: artifacts
 
-      - name: Create Release
-        uses: softprops/action-gh-release@v2
+      - uses: softprops/action-gh-release@v2
         with:
           tag_name: latest
           name: JAT Terminal - Latest Build
           files: |
             artifacts/jat-terminal-windows/jat-terminal.exe
             artifacts/jat-terminal-linux/jat-terminal-linux
-          prerelease: false
