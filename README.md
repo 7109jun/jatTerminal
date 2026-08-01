@@ -1,5 +1,6 @@
 # jatterminal 
-![Uploading 스크린샷 2026-07-30 194802.png…]()
+<img width="830" height="828" alt="스크린샷 2026-08-01 123217" src="https://github.com/user-attachments/assets/2ae33c5c-6cd9-4c55-80ff-7f07c816d989" />
+
 
 > 셀 터미널
 >
