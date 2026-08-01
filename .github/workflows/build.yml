@@ -11,17 +11,19 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install curl for Windows
-        shell: pwsh
-        run: |
-          Invoke-WebRequest -Uri "https://curl.se/windows/dl-8.12.1_3/curl-8.12.1_3-win64-mingw.zip" -OutFile curl.zip
-          Expand-Archive curl.zip -DestinationPath C:\curl
-          echo "C:\curl\curl-8.12.1_3-win64-mingw\include" >> $env:GITHUB_PATH
-          echo "C:\curl\curl-8.12.1_3-win64-mingw\bin" >> $env:GITHUB_PATH
+      - name: Setup MSYS2 (MinGw toolchain + curl)
+        uses: msys2/setup-msys2@v2
+        with:
+          update: true
+          install: >-
+            mingw-w64-x86_64-gcc
+            mingw-w64-x86_64-curl
 
-      - name: Compile Windows
+      - name: Compile Windows (MinGW)
+        shell: msys2 {0}
         run: |
-          g++ -std=c++17 -O2 -o jat-terminal.exe 7Code.cpp -ladvapi32 -liphlpapi -lws2_32 -lshell32 -lcurldll -LC:\curl\curl-8.12.1_3-win64-mingw\lib -IC:\curl\curl-8.12.1_3-win64-mingw\include
+          # 컴파일: 7Code.cpp 단일 파일로 빌드
+          g++ -std=c++17 -O2 -o jat-terminal.exe 7Code.cpp -lcurl -ladvapi32 -liphlpapi -lws2_32 -lshell32
 
       - uses: actions/upload-artifact@v4
         with:
@@ -33,11 +35,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install curl for Linux
-        run: sudo apt-get update && sudo apt-get install -y libcurl4-openssl-dev
+      - name: Install build deps
+        run: sudo apt-get update && sudo apt-get install -y build-essential libcurl4-openssl-dev
 
       - name: Compile Linux
-        run: g++ -std=c++17 -O2 -o jat-terminal-linux 7Code.cpp -lcurl
+        run: |
+          # 컴파일: 7Code.cpp 단일 파일로 빌드
+          g++ -std=c++17 -O2 -o jat-terminal-linux 7Code.cpp -lcurl
 
       - uses: actions/upload-artifact@v4
         with:
